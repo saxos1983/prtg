@@ -5,8 +5,11 @@
     Lists all present snapshots for a given VMware vSphere.
     It shows for each snapshot the associated virtual machine name, name and description and the snapshot's age in days.
     
-    IMPORTANT: Requires VMware PowerCLI be installed.
-    See: http://thesolving.com/virtualization/how-to-install-and-configure-vmware-powercli-version-10/
+    IMPORTANT: Requires VMware PowerCLI be installed & other dependencies to be installed.
+    Check all the followings links carefully:
+        http://thesolving.com/virtualization/how-to-install-and-configure-vmware-powercli-version-10/
+        https://stackoverflow.com/questions/51406685/how-do-i-install-the-nuget-provider-for-powershell-on-a-unconnected-machine-so-i
+        https://kb.paessler.com/en/topic/60932-prtgshell-module-not-loaded:-ensure-the-module-is-visible-for-32-bit-powershell
 .PARAMETER Server
     The name or ip address of the host or vCenter Server
 .PARAMETER Username
