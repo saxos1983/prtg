@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="go-e.apistatus.error" desiredValue="0" undefinedState="olsNone">
+    <Lookups>
+      <SingleInt state="OK" value="0">
+        None
+      </SingleInt>
+      <SingleInt state="Error" value="1">
+        RCCB
+      </SingleInt>
+      <SingleInt state="Error" value="3">
+        Phase distortion
+      </SingleInt>
+      <SingleInt state="Error" value="8">
+        No Ground detected
+      </SingleInt>
+      <SingleInt state="Error" value="10">
+        Other
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="go-e.apistatus.access.control" undefinedState="olsNone">
+    <Lookups>
+      <SingleInt state="OK" value="0">
+        Open to everyone
+      </SingleInt>
+      <SingleInt state="OK" value="1">
+        By RFID / App
+      </SingleInt>
+      <SingleInt state="OK" value="2">
+        By electricity price
+      </SingleInt>
+	  <SingleInt state="OK" value="3">
+        By schedule
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

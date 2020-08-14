@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="go-e.apistatus.cable.lockmode" undefinedState="olsNone">
+    <Lookups>
+      <SingleInt state="OK" value="0">
+        Locked while vehicle connected
+      </SingleInt>
+      <SingleInt state="OK" value="1">
+        Unlock after charging
+      </SingleInt>
+      <SingleInt state="OK" value="2">
+        Always locked
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>

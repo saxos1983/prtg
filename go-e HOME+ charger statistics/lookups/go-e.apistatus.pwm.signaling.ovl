@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <ValueLookup id="go-e.apistatus.pwm.signaling" undefinedState="olsNone">
+    <Lookups>
+      <SingleInt state="OK" value="1">
+        Charger ready, no vehicle
+      </SingleInt>
+      <SingleInt state="OK" value="2">
+        Charging vehicle
+      </SingleInt>
+      <SingleInt state="OK" value="3">
+        Vehicle connected, waiting
+      </SingleInt>
+      <SingleInt state="OK" value="4">
+        Vehicle connected, charging completed
+      </SingleInt>
+    </Lookups>
+  </ValueLookup>
