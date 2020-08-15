@@ -21,7 +21,7 @@
             Please check the go-e HOME+ user manual for further information.
         .PARAMETER ShowAllChannels
             If this parameter is set, this additional data will be shown in the sensor output:
-                - Current L1/L2/L3, Voltage L1/L2/L3/N, Power factor L1/L2/L3, Power L1/L2/L3/N
+                - Current L1/L2/L3, Voltage L1/L2/L3/N, Power factor L1/L2/L3, Power L1/L2/L3/N, Firmware version
          
         .OUTPUT
             Shows the stats of the charger in XML format.
@@ -154,6 +154,9 @@ if($ShowAllChannels)
 Write-Channel "Power total" $($data.nrg[11] / 100) "kW" -Float
 Write-Channel "Controller temperature" $data.tmp "&#176;C"
 Write-Channel "Cable lock mode" $data.ust -ValueLookup "go-e.apistatus.cable.lockmode"
-Write-Channel "Firmware version" $data.fwv
+if($ShowAllChannels)
+{
+    Write-Channel "Firmware version" $data.fwv
+}
 Write-Channel "Firmware update available" $data.upd -ValueLookup "prtg.standardlookups.boolean.statefalseok"
 Write-Host "</prtg>"
