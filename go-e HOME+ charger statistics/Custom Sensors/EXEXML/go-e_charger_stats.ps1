@@ -1,9 +1,11 @@
 ﻿ <#      
         .VERSION
-            1.0
+            1.1
 
         .SYNOPSIS
             Retrieves ans outputs the stats of a go-e HOME+ charger in XML format.
+            The available stats are shown in this screenshot:
+            https://github.com/saxos1983/prtg/raw/master/go-e%20HOME%2B%20charger%20statistics/Screenshot.png
 
         .DESCRIPTION
             This script is intended to be used by a PRTG sensor of type 'EXE/Script Advanced'
@@ -17,6 +19,9 @@
             To access the API of the go-e charger, you need to provide the associated cloud token for the charger.
             The cloud token can be found on the RFID reset card.
             Please check the go-e HOME+ user manual for further information.
+        .PARAMETER ShowAllChannels
+            If this parameter is set, this additional data will be shown in the sensor output:
+                - Current L1/L2/L3, Voltage L1/L2/L3/N, Power factor L1/L2/L3, Power L1/L2/L3/N
          
         .OUTPUT
             Shows the stats of the charger in XML format.
@@ -28,10 +33,11 @@
             PRTG Manual EXE/Script Advanced sensor: https://www.paessler.com/manuals/prtg/exe_script_advanced_sensor
 
         .EXAMPLE
-            .\go-e_charger_stats.ps1 -Token '123456ABCD'
+            .\go-e_charger_stats.ps1 -Token '123456ABCD' [-ShowAllChannels]
 #>
 param(
-	[string]$Token
+	[string]$Token,
+    [switch]$ShowAllChannels
 )
 
 $CloudUrl = "https://api.go-e.co/api_status?token=$Token"
@@ -125,24 +131,27 @@ Write-Channel "Last successful upload" $AgeOfCloudUpdate "secs"
 Write-Channel "Charged energy for session" $([math]::Round($kWhChargedForSession,2)) "kWh" -Float
 Write-Channel "Total charged energy" $($data.eto / 10) "kWh"
 Write-Channel "Error" $data.err -ValueLookup "go-e.apistatus.error"
-Write-Channel "Voltage L1" $data.nrg[0] "V"
-Write-Channel "Voltage L2" $data.nrg[1] "V"
-Write-Channel "Voltage L3" $data.nrg[2] "V"
-Write-Channel "Voltage N" $data.nrg[3] "V"
 Write-Channel "Configured max. current" $data.amp "A"
 Write-Channel "Cable max. current" $data.cbl "A"
-Write-Channel "Current L1" $($data.nrg[4] / 10) "A" -Float
-Write-Channel "Current L2" $($data.nrg[5] / 10) "A" -Float
-Write-Channel "Current L3" $($data.nrg[6] / 10) "A" -Float
-Write-Channel "Power L1" $($data.nrg[7] / 10) "kW" -Float
-Write-Channel "Power L2" $($data.nrg[8] / 10) "kW" -Float
-Write-Channel "Power L3" $($data.nrg[9] / 10) "kW" -Float
-Write-Channel "Power N" $($data.nrg[10] / 10) "kW" -Float
+if($ShowAllChannels)
+{
+    Write-Channel "Current L1" $($data.nrg[4] / 10) "A" -Float
+    Write-Channel "Current L2" $($data.nrg[5] / 10) "A" -Float
+    Write-Channel "Current L3" $($data.nrg[6] / 10) "A" -Float
+    Write-Channel "Voltage L1" $data.nrg[0] "V"
+    Write-Channel "Voltage L2" $data.nrg[1] "V"
+    Write-Channel "Voltage L3" $data.nrg[2] "V"
+    Write-Channel "Voltage N" $data.nrg[3] "V"
+    Write-Channel "Power factor L1" $data.nrg[12] "%"
+    Write-Channel "Power factor L2" $data.nrg[13] "%"
+    Write-Channel "Power factor L3" $data.nrg[14] "%"
+    Write-Channel "Power factor N" $data.nrg[15] "%"
+    Write-Channel "Power L1" $($data.nrg[7] / 10) "kW" -Float
+    Write-Channel "Power L2" $($data.nrg[8] / 10) "kW" -Float
+    Write-Channel "Power L3" $($data.nrg[9] / 10) "kW" -Float
+    Write-Channel "Power N" $($data.nrg[10] / 10) "kW" -Float
+}
 Write-Channel "Power total" $($data.nrg[11] / 100) "kW" -Float
-Write-Channel "Power factor L1" $data.nrg[12] "%"
-Write-Channel "Power factor L2" $data.nrg[13] "%"
-Write-Channel "Power factor L3" $data.nrg[14] "%"
-Write-Channel "Power factor N" $data.nrg[15] "%"
 Write-Channel "Controller temperature" $data.tmp "&#176;C"
 Write-Channel "Cable lock mode" $data.ust -ValueLookup "go-e.apistatus.cable.lockmode"
 Write-Channel "Firmware version" $data.fwv
