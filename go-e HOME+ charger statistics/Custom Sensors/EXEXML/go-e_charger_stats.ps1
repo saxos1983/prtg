@@ -1,9 +1,9 @@
 ﻿ <#      
         .VERSION
-            1.1
+            1.2
 
         .SYNOPSIS
-            Retrieves ans outputs the stats of a go-e HOME+ charger in XML format.
+            Retrieves and outputs the stats of a go-e HOME+ charger in XML format.
             The available stats are shown in this screenshot:
             https://github.com/saxos1983/prtg/raw/master/go-e%20HOME%2B%20charger%20statistics/Screenshot.png
 
@@ -74,6 +74,21 @@ function Write-Channel {
     Write-Host "</result>"
 }
 
+function Write-TimeSecondsChannel {
+	Param(
+        [parameter(Mandatory=$true)]
+		$ChannelName,
+        [parameter(Mandatory=$true)]
+		$Value
+	)
+
+    Write-Host "<result>"
+    Write-Host "<channel>$ChannelName</channel>"
+    Write-Host "<value>$Value</value>"
+    Write-Host "<Unit>TimeSeconds</Unit>"
+    Write-Host "</result>"
+}
+
 function Write-Error {
     Param(
         [parameter(Mandatory=$true)]
@@ -127,7 +142,7 @@ Write-Host "<prtg>"
 Write-Channel "PWM vehicle state" $data.car -ValueLookup "go-e.apistatus.pwm.signaling"
 Write-Channel "Charge access control" $data.ast -ValueLookup "go-e.apistatus.access.control"
 Write-Channel "Allow charging" $data.alw -ValueLookup "go-e.apistatus.yesno"
-Write-Channel "Last successful upload" $AgeOfCloudUpdate "secs"
+Write-TimeSecondsChannel "Last successful upload" $AgeOfCloudUpdate
 Write-Channel "Charged energy for session" $([math]::Round($kWhChargedForSession,2)) "kWh" -Float
 Write-Channel "Total charged energy" $($data.eto / 10) "kWh"
 Write-Channel "Error" $data.err -ValueLookup "go-e.apistatus.error"
